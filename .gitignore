@@ -1,0 +1,34 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+
+# Archive files
+*.zip
+*.rar
+*.7z
+
+# IDE files
+.idea/
+
+# Windows
+desktop.ini
