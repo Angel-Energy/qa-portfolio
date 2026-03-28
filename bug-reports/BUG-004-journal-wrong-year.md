@@ -79,4 +79,4 @@
 
 ## Вложения
 
-- Скриншот: `../screenshots/BUG-004-journal-wrong-year.png`
+![BUG-004 Скриншот](../screenshots/BUG-004-journal-wrong-year.png)
