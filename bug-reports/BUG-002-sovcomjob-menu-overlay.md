@@ -66,6 +66,7 @@
 
 ---
 
+
 ## Вложения
 
-- Скриншот: `../screenshots/BUG-002-form-overlaps-menu.png`
+[Видео воспроизведения бага (mp4)](../screenshots/BUG-002-form-overlaps-menu.mp4)
