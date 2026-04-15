@@ -82,4 +82,4 @@ c {type: 2, message: '', code: 'bff:invalid-email', details: {…}}
 
 ## Вложения
 
-![BUG-007 Скриншот](../screenshots/BUG-007-Bad Request.png)
+![BUG-007 Скриншот]((../screenshots/BUG-007-Bad Request.png)
