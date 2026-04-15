@@ -73,7 +73,6 @@
 
 ---
 
-```markdown
 ## Покрытие типов тестирования
 
 ```mermaid
@@ -98,7 +97,7 @@ pie title Покрытие типов тестирования
 | API Testing | Negative | Server-side | BUG-006, BUG-007 |
 | Negative Testing | Boundary / Error flow | UI + API | BUG-007 |
 | End-to-End Testing | Scenario-based | UI + API | BUG-007 |
-```
+
 ---
 
 ## Чек-листы
