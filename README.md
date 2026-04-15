@@ -28,13 +28,41 @@
 
 ## Навыки и инструменты
 
-| Категория | Навыки |
-|-----------|--------|
-| Тестирование | Ручное тестирование, функциональное тестирование, UI-тестирование, тестирование мобильных приложений, тестирование веб-приложений |
-| Теория | Виды и уровни тестирования, регрессионное тестирование, smoke-тестирование, жизненный цикл дефекта |
-| Документация | Баг-репорты, чек-листы, тест-кейсы |
-| Инструменты | Yandex Tracker, GitHub, DevTools |
-| Платформы | Android 10, Android 15, Windows 11, веб |
+**Тестирование:**
+
+![Manual Testing](https://img.shields.io/badge/Manual%20Testing-4A90D9?style=for-the-badge)
+![Functional Testing](https://img.shields.io/badge/Functional%20Testing-5BA85A?style=for-the-badge)
+![UI Testing](https://img.shields.io/badge/UI%20Testing-E67E22?style=for-the-badge)
+![Mobile Testing](https://img.shields.io/badge/Mobile%20Testing-9B59B6?style=for-the-badge)
+![Web Testing](https://img.shields.io/badge/Web%20Testing-1ABC9C?style=for-the-badge)
+![Regression Testing](https://img.shields.io/badge/Regression%20Testing-E74C3C?style=for-the-badge)
+![Smoke Testing](https://img.shields.io/badge/Smoke%20Testing-F39C12?style=for-the-badge)
+![Negative Testing](https://img.shields.io/badge/Negative%20Testing-C0392B?style=for-the-badge)
+![E2E Testing](https://img.shields.io/badge/E2E%20Testing-2980B9?style=for-the-badge)
+
+**Документация:**
+
+![Bug Reports](https://img.shields.io/badge/Bug%20Reports-E74C3C?style=for-the-badge)
+![Checklists](https://img.shields.io/badge/Checklists-27AE60?style=for-the-badge)
+![Test Cases](https://img.shields.io/badge/Test%20Cases-8E44AD?style=for-the-badge)
+
+**Инструменты:**
+
+![DevTools](https://img.shields.io/badge/DevTools-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+![Yandex Tracker](https://img.shields.io/badge/Yandex%20Tracker-FFCC00?style=for-the-badge&logoColor=black)
+
+**Платформы:**
+
+![Android](https://img.shields.io/badge/Android%2010%20%2F%2015-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows%2011-0078D4?style=for-the-badge&logo=windows&logoColor=white)
+![Web](https://img.shields.io/badge/Web-FF6B6B?style=for-the-badge&logo=googlechrome&logoColor=white)
+
+**Браузеры:**
+
+![Yandex Browser](https://img.shields.io/badge/Yandex%20Browser-FFCC00?style=for-the-badge&logoColor=black)
+![Chrome](https://img.shields.io/badge/Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)
+![Opera](https://img.shields.io/badge/Opera-FF1B2D?style=for-the-badge&logo=opera&logoColor=white)
 
 ---
 
