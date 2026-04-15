@@ -58,30 +58,33 @@
 
 | ID | Продукт | Суть дефекта | Тип | Результат |
 |----|---------|--------------|-----|-----------|
-| [BUG-001](bug-reports/BUG-001.md) | Яндекс Лавка | Кнопка «В корзину» не реагирует на нажатие в составе набора | Функциональный | Подтверждён, присвоен статус **Blocker** |
-| [BUG-004](bug-reports/BUG-004.md) | НКЭиВТ | Учебный год отображается как «2025» вместо «2025/2026» | UX / Отображение | Подтверждён, исправление запланировано. Отмечен разработчиками как **образец оформления** |
+| [BUG-001](bug-reports/BUG-001.md) | Яндекс Лавка | Кнопка «В корзину» не реагирует на нажатие в составе набора | Functional | Дефект подтверждён, присвоен severity **Blocker** |
+| [BUG-004](bug-reports/BUG-004.md) | НКЭиВТ | Учебный год отображается как «2025» вместо «2025/2026» | UX / Display | Дефект подтверждён, исправление запланировано. Отмечен командой разработки как **образец оформления** |
 
 ### Остальные баг-репорты
 
-| ID | Продукт | Суть дефекта | Тип | Серьёзность | Платформа |
-|----|---------|--------------|-----|-------------|-----------|
-| [BUG-002](bug-reports/BUG-002.md) | sovcomjob.ru | Форма перекрывает навигационное меню в мобильной версии | UI | Major | Android 10 |
-| [BUG-003](bug-reports/BUG-003.md) | Яндекс Крауд | Формулировка вопроса не соответствует типу выбора ответа | Контент / UX | Minor | Веб |
-| [BUG-005](bug-reports/BUG-005.md) | Яндекс Почта | Счётчик писем в цепочке показывает «3» вместо фактических 2 | Функциональный | Major | Веб |
-| [BUG-006](bug-reports/BUG-006.md) | Электронный город | Форма восстановления пароля: API возвращает HTML вместо JSON | Функциональный / Серверный | Critical | Веб |
+| ID | Продукт | Суть дефекта | Test Type | Severity | Среда |
+|----|---------|--------------|-----------|----------|-------|
+| [BUG-002](bug-reports/BUG-002.md) | sovcomjob.ru | Layout overlap: форма перекрывает nav-меню в mobile view | UI / Layout | Major | Android 10 |
+| [BUG-003](bug-reports/BUG-003.md) | Яндекс Крауд | Mismatch: формулировка вопроса не соответствует типу ответа | Content / UX | Minor | Web |
+| [BUG-005](bug-reports/BUG-005.md) | Яндекс Почта | Data inconsistency: счётчик треда показывает «3» при фактических 2 сообщениях | Functional | Major | Web |
+| [BUG-006](bug-reports/BUG-006.md) | Электронный город | API response mismatch: сервер возвращает `text/html` вместо `application/json` | Functional / Server-side | Critical | Web |
+| [BUG-007](bug-reports/BUG-007.md) | Т-Образование | HTTP 400 Bad Request при вызове endpoint восстановления пароля — server-side error `bff:invalid-email` | Functional / Server-side | Critical | Web |
 
 ---
 
 ## Покрытие типов тестирования
 
-| Тип тестирования | Примеры в портфолио |
-|------------------|---------------------|
-| Функциональное | BUG-001, BUG-005, BUG-006 |
-| UI | BUG-002 |
-| UX / контент | BUG-003, BUG-004 |
-| Мобильное | BUG-001, BUG-002 |
-| Десктопное веб | BUG-003, BUG-004, BUG-005, BUG-006 |
-| Серверные / API-ошибки | BUG-006 |
+| Test Type | Technique | Level | Баг-репорты |
+|-----------|-----------|-------|-------------|
+| Functional Testing | Black-box | UI + API | BUG-001, BUG-005, BUG-006, BUG-007 |
+| UI Testing | Layout / Visual | Frontend | BUG-002 |
+| UX / Content Testing | Exploratory | UI | BUG-003, BUG-004 |
+| Mobile Testing | Cross-platform | Device | BUG-001, BUG-002 |
+| Web Testing | Regression | Browser | BUG-003, BUG-004, BUG-005, BUG-006, BUG-007 |
+| API Testing | Negative | Server-side | BUG-006, BUG-007 |
+| Negative Testing | Boundary / Error flow | UI + API | BUG-007 |
+| End-to-End Testing | Scenario-based | UI + API | BUG-007 |
 
 ---
 
