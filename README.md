@@ -73,7 +73,20 @@
 
 ---
 
+```markdown
 ## Покрытие типов тестирования
+
+```mermaid
+pie title Покрытие типов тестирования
+    "Functional" : 4
+    "UI" : 1
+    "UX / Content" : 2
+    "Mobile" : 2
+    "Web" : 5
+    "API" : 2
+    "Negative" : 1
+    "E2E" : 1
+```
 
 | Test Type | Technique | Level | Баг-репорты |
 |-----------|-----------|-------|-------------|
@@ -85,7 +98,7 @@
 | API Testing | Negative | Server-side | BUG-006, BUG-007 |
 | Negative Testing | Boundary / Error flow | UI + API | BUG-007 |
 | End-to-End Testing | Scenario-based | UI + API | BUG-007 |
-
+```
 ---
 
 ## Чек-листы
