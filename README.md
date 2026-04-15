@@ -111,5 +111,5 @@ pie title Покрытие типов тестирования
 
 ## Контакты
 
-- Email: ms1gnatov1@yandex.ru
-- Город: Новосибирск
+[![Email](https://img.shields.io/badge/ms1gnatov1%40yandex.ru-FFCC00?style=for-the-badge&logo=mail.ru&logoColor=black)](mailto:ms1gnatov1@yandex.ru)
+[![Новосибирск](https://img.shields.io/badge/Новосибирск-4A90D9?style=for-the-badge&logo=googlemaps&logoColor=white)]()
