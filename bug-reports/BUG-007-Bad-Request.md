@@ -78,6 +78,24 @@ c {type: 2, message: '', code: 'bff:invalid-email', details: {…}}
 - Некорректная обработка email на стороне BFF
 - Ошибка конфигурации эндпоинта `/api/v5/user/password-reset`
 
+
+## Дополнительные наблюдения
+
+**Новый лог консоли от 22.04.2026 подтверждает стабильность бага:**
+
+main.21cc80e2bfdc3a16.js:1 too early access
+/api/v5/user/password-reset:1 Failed to load resource: the server responded with a status of 400 ()
+main.21cc80e2bfdc3a16.js:1 c {type: 2, message: '', code: 'bff:invalid-email', details: {…}}
+polyfills.33b387477dd0cad4.js:1 POST https://edu.tbank.ru/api/v5/user/password-reset 400 (Bad Request)
+main.21cc80e2bfdc3a16.js:1 c {type: 2, message: '', code: 'bff:invalid-email', details: {…}}
+Ключевые наблюдения:
+
+Ошибка bff:invalid-email возвращается стабильно при каждом запросе
+Запрос на восстановление пароля отправляется минимум 2 раза (автоматический retry + повторные нажатия)
+Многочисленные ошибки net::ERR_BLOCKED_BY_CLIENT на api-statist.tinkoff.ru/gateway/v1/events (аналитика)
+Повторяющиеся ошибки too early access
+Данные ошибки указывают на проблему инициализации состояния пользователя перед отправкой запроса на восстановление пароля.
+
 ## Вложения
 
 ![BUG-007 Скриншот](../screenshots/BUG-007-Bad-Request.png)
