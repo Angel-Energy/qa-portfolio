@@ -90,7 +90,24 @@ def test_timestamp_dots_are_escaped():
     import re as _re
 
     msg = tn.format_bug_message({"key": "BUG-013", "title": "x"})
-    assert _re.search(r"\d{2}\\.\d{2}\\.\d{4}", msg), msg
+    # шаблон собирается в рантайме: chr(92) — обратный слеш.
+    # Так в исходнике нет ни одного бэкслеша, которые инструмент
+    # правок иногда схлопывает.
+    bs2 = chr(92) + chr(92)  # в регэкспе — один литеральный бэкслеш
+    pattern = "[0-9]{2}" + bs2 + "[.][0-9]{2}" + bs2 + "[.][0-9]{4}"
+    assert _re.search(pattern, msg), msg
+
+
+def test_timestamp_shows_local_offset_and_utc():
+    import re as _re
+
+    msg = tn.format_bug_message({"key": "BUG-014", "title": "x"})
+    # текст содержит "\(UTC\+3\)": скобки и знак экранированы бэкслешем
+    bs2 = chr(92) + chr(92)
+    pattern = bs2 + "[(]UTC" + bs2 + "[+-][0-9]{1,2}(:[0-9]{2})?" + bs2 + "[)]"
+    assert _re.search(pattern, msg), msg
+    # и дубль по Гринвичу: "08:45 UTC"
+    assert _re.search("[0-9]{2}:[0-9]{2} UTC", msg), msg
 
 
 # ─── Конфигурация ─────────────────────────────────────────────────

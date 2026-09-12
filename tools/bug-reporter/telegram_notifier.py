@@ -162,8 +162,19 @@ def format_bug_message(bug: dict) -> str:
     if bug.get("environment"):
         tail.append(f"⚙️ *Окружение:* {esc(bug['environment'])}")
     tail.append(f"👤 *Тестировщик:* {esc(bug.get('reporter', 'Мария Игнатова'))}")
-    # точки в дате — зарезервированные символы MarkdownV2
-    stamp = datetime.now(timezone.utc).strftime("%d.%m.%Y %H:%M UTC")
+    # Локальное время машины с явным смещением, затем UTC: точки и плюс
+    # в смещении — зарезервированные символы MarkdownV2, поэтому весь
+    # штамп проходит через esc().
+    now_local = datetime.now().astimezone()
+    offset_minutes = int(now_local.utcoffset().total_seconds() // 60)
+    sign = "+" if offset_minutes >= 0 else "-"
+    off_h, off_m = divmod(abs(offset_minutes), 60)
+    tz_label = f"UTC{sign}{off_h}" + (f":{off_m:02d}" if off_m else "")
+    utc_now = datetime.now(timezone.utc)
+    stamp = (
+        f"{now_local.strftime('%d.%m.%Y %H:%M')} ({tz_label})"
+        f" / {utc_now.strftime('%H:%M')} UTC"
+    )
     tail.append(f"🕐 {esc(stamp)}")
     lines += ["", *tail]
 
