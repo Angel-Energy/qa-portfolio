@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block breadcrumb %}Новый баг{% endblock %}
+{% block content %}
+
+<div class="main-content" style="max-width: 900px; margin: 0 auto;">
+    <div class="issue-header">
+        <h1 class="issue-title" style="margin-bottom: 0;">Новый баг-репорт</h1>
+    </div>
+    <div class="issue-body">
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="title">Заголовок *</label>
+                <input type="text" id="title" name="title" required placeholder="Краткое описание проблемы">
+            </div>
+
+            <div class="form-row-3">
+                <div class="form-group">
+                    <label for="project">Проект</label>
+                    <input type="text" id="project" name="project" placeholder="Название проекта">
+                </div>
+                <div class="form-group">
+                    <label for="type">Тип</label>
+                    <select id="type" name="type">
+                        <option value="Функциональный">Функциональный</option>
+                        <option value="UI">UI</option>
+                        <option value="Контент / UX">Контент / UX</option>
+                        <option value="Серверный">Серверный</option>
+                        <option value="Производительность">Производительность</option>
+                        <option value="Безопасность">Безопасность</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="component">Компонент</label>
+                    <input type="text" id="component" name="component" placeholder="Компонент системы">
+                </div>
+            </div>
+
+            <div class="form-row-3">
+                <div class="form-group">
+                    <label for="severity">Серьёзность</label>
+                    <select id="severity" name="severity">
+                        <option value="Critical">Critical</option>
+                        <option value="Major" selected>Major</option>
+                        <option value="Minor">Minor</option>
+                        <option value="Trivial">Trivial</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="priority">Приоритет</label>
+                    <select id="priority" name="priority">
+                        <option value="High">High</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="status">Статус</label>
+                    <select id="status" name="status">
+                        <option value="Open" selected>Open</option>
+                        <option value="Reported">Reported</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Fixed">Fixed</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="assignee">Исполнитель</label>
+                    <input type="text" id="assignee" name="assignee" placeholder="Кому назначено" value="Unassigned">
+                </div>
+                <div class="form-group">
+                    <label for="reporter">Автор</label>
+                    <input type="text" id="reporter" name="reporter" placeholder="Ваше имя" value="QA Engineer">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="environment">Окружение</label>
+                <textarea id="environment" name="environment" placeholder="ОС, браузер, устройство, версия..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="preconditions">Предусловия</label>
+                <textarea id="preconditions" name="preconditions" placeholder="Что должно быть выполнено перед шагами"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="steps">Шаги воспроизведения</label>
+                <textarea id="steps" name="steps" placeholder="1. ...&#10;2. ...&#10;3. ..." style="min-height: 120px;"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="expected_result">Ожидаемый результат</label>
+                    <textarea id="expected_result" name="expected_result" placeholder="Что должно произойти" style="min-height: 80px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="actual_result">Фактический результат</label>
+                    <textarea id="actual_result" name="actual_result" placeholder="Что произошло на самом деле" style="min-height: 80px;"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="user_impact">Влияние на пользователя</label>
+                <textarea id="user_impact" name="user_impact" placeholder="Как проблема влияет на пользователя"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="root_cause">Предположение о причине</label>
+                <textarea id="root_cause" name="root_cause" placeholder="Что могло вызвать проблему"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="recommendations">Рекомендации по исправлению</label>
+                <textarea id="recommendations" name="recommendations" placeholder="Что нужно сделать"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="labels">Метки (через запятую)</label>
+                    <input type="text" id="labels" name="labels" placeholder="например: mobile, auth, ui">
+                </div>
+                <div class="form-group">
+                    <label for="comments">Комментарии</label>
+                    <textarea id="comments" name="comments" placeholder="Дополнительная информация"></textarea>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Создать баг</button>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">Отмена</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

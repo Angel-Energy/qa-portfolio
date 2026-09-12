@@ -18,6 +18,9 @@ __pycache__/
 .venv/
 .pytest_cache/
 
+# Локальная база данных трекера (создаётся app.py при первом запуске)
+*.db
+
 # Node modules
 node_modules/
 
