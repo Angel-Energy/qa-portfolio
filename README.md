@@ -90,6 +90,52 @@ pie title Распределение баг-репортов по типам
 
 ---
 
+## Автоматизированные тесты
+
+В `tests/` — двухуровневая автоматизация бага [BUG-008](bug-reports/BUG-008-getcourse-blog-sidebar-broken-links.md) (битые ссылки в правом сайдбаре публичного блога GetCourse).
+
+| Слой | Файл | Инструмент | Что проверяет |
+|------|------|------------|---------------|
+| Layer 1 — HTTP/Route-check | [test_bug008_route_check.py](tests/test_bug008_route_check.py) | pytest + requests | Редиректы 301 на /pl/blog без браузера: 5 ссылок × 3 проверки + доступность страницы (17 тестов) |
+| Layer 2 — UI E2E | [test_bug008_e2e.py](tests/test_bug008_e2e.py) | pytest + Playwright | Путь гостя без авторизации: ссылка в сайдбаре, клик, новая вкладка, редирект (20 тестов) |
+
+**Запуск:**
+
+```powershell
+py -m pip install -r requirements.txt
+py -m playwright install chromium
+py -m pytest tests/ -v
+```
+
+HTTP-слой против живого сайта (прогон 12.09.2026): **17 passed**.
+E2E-слой требует установленного Chromium.
+
+---
+
+## Bug Reporter (pet-project)
+
+Мини-трекер багов на **Flask + SQLite** с Jira-подобным интерфейсом — собственный инструмент для ведения портфолио-багов (`tools/bug-reporter/`, подробнее — [tools/bug-reporter/README.md](tools/bug-reporter/README.md)).
+
+**Возможности:**
+
+- Список багов со статистикой: total / open / in progress / resolved / critical
+- Карточка бага: severity, priority, статус, URL, вложения, скриншоты
+- Комментарии, навигация prev/next, смена статуса в один клик
+- Импорт багов из `bug-reports/*.md` (`import_bugs.py`)
+- Telegram-уведомления о багах (`telegram_notifier.py`): карточка с severity, ссылкой на репорт и штампом времени; конфиг — только переменные окружения, без секретов в коде; 24 теста на моках в `tests/test_telegram_notifier.py`
+
+**Запуск:**
+
+```powershell
+cd tools/bug-reporter
+py -m pip install -r requirements.txt
+py import_bugs.py
+py app.py
+# → http://127.0.0.1:5000
+```
+
+---
+
 ## Чек-листы и Тестовая документация
 
 | Название | Тип | Описание |
