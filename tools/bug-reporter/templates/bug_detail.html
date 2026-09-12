@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block breadcrumb %}{{ bug.key }}{% endblock %}
+{% block content %}
+
+<div style="max-width: 1200px; margin: 0 auto;">
+    <!-- Header -->
+    <div style="background: white; border-radius: 8px; padding: 24px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <span style="color: #0052CC; font-weight: 600; font-size: 14px;">{{ bug.key }}</span>
+            <span class="priority-badge" style="display: inline-flex; align-items: center; gap: 4px;" title="{{ bug.priority }}">
+                {% if bug.priority == 'Highest' %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #DC2626;"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+                <span style="color: #DC2626; font-weight: 600;">Highest</span>
+                {% elif bug.priority == 'High' %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #EF4444;"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                <span style="color: #EF4444; font-weight: 600;">High</span>
+                {% elif bug.priority == 'Medium' %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #F97316;"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span style="color: #F97316; font-weight: 600;">Medium</span>
+                {% elif bug.priority == 'Low' %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #3B82F6;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <span style="color: #3B82F6; font-weight: 600;">Low</span>
+                {% elif bug.priority == 'Lowest' %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #60A5FA;"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                <span style="color: #60A5FA; font-weight: 600;">Lowest</span>
+                {% endif %}
+            </span>
+        </div>
+        <h1 style="font-size: 24px; font-weight: 700; color: #1F2937; margin-bottom: 16px;">{{ bug.title }}</h1>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+            <div>
+                <div style="font-size: 12px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 4px;">Проект</div>
+                <div style="font-size: 14px; color: #374151; font-weight: 500;">{{ bug.project }}</div>
+            </div>
+            <div>
+                <div style="font-size: 12px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 4px;">Серьёзность</div>
+                <div><span class="severity-badge severity-{{ bug.severity|lower }}">{{ bug.severity }}</span></div>
+            </div>
+            <div>
+                <div style="font-size: 12px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 4px;">Приоритет</div>
+                <div style="font-size: 14px; color: #374151; font-weight: 500;">{{ bug.priority }}</div>
+            </div>
+            <div>
+                <div style="font-size: 12px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 4px;">Дата создания</div>
+                <div style="font-size: 14px; color: #374151; font-weight: 500; display: flex; align-items: center; gap: 4px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    {{ bug.date }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Change -->
+    <div style="background: white; border-radius: 8px; padding: 24px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+        <div style="font-size: 12px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 12px;">Изменить статус</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            {% for status in ['New', 'In Progress', 'Resolved', 'Closed'] %}
+            <a href="{{ url_for('change_status_get', bug_id=bug.id, status=status) }}" 
+               class="status-badge status-{{ status|lower|replace(' ', '-') }}"
+               style="text-decoration: none; color: inherit; cursor: pointer; {% if bug.status == status %}opacity: 1; border: 2px solid currentColor;{% else %}opacity: 0.6;{% endif %}">
+                {% if status == 'New' %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+                {% elif status == 'In Progress' %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                {% elif status == 'Resolved' %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                {% elif status == 'Closed' %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                {% endif %}
+                {{ status }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 12px;">
+        <a href="{{ url_for('edit_bug', bug_id=bug.id) }}" class="create-btn" style="text-decoration: none; display: inline-flex;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            Редактировать
+        </a>
+        <form action="{{ url_for('delete_bug', bug_id=bug.id) }}" method="post" onsubmit="return confirm('Удалить баг {{ bug.key }}?');">
+            <button type="submit" class="action-link delete-link" style="padding: 8px 16px; font-size: 14px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                Удалить
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Navigation -->
+<div style="display: flex; justify-content: space-between; margin-bottom: 16px; gap: 12px;">
+    {% if bug.prev_bug %}
+    <a href="{{ url_for('bug_detail', bug_id=bug.prev_bug.id) }}" style="flex: 1; display: inline-flex; align-items: center; gap: 8px; padding: 12px 16px; background: white; border: 1px solid #E5E7EB; border-radius: 8px; text-decoration: none; color: #374151; font-size: 14px; transition: all 0.2s;" onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';" onmouseout="this.style.boxShadow='none';">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <div>
+            <div style="font-size: 11px; color: #9CA3AF;">Предыдущий</div>
+            <div style="font-weight: 600;">{{ bug.prev_bug.key }} — {{ bug.prev_bug.title[:50] }}...</div>
+        </div>
+    </a>
+    {% else %}
+    <div style="flex: 1; padding: 12px 16px; background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 8px; color: #9CA3AF; font-size: 14px;">
+        Нет предыдущего
+    </div>
+    {% endif %}
+    
+    <a href="{{ url_for('index') }}" style="padding: 12px 20px; background: white; border: 1px solid #E5E7EB; border-radius: 8px; text-decoration: none; color: #374151; font-size: 14px; font-weight: 500;">
+        📋 К списку
+    </a>
+    
+    {% if bug.next_bug %}
+    <a href="{{ url_for('bug_detail', bug_id=bug.next_bug.id) }}" style="flex: 1; display: inline-flex; align-items: center; gap: 8px; padding: 12px 16px; background: white; border: 1px solid #E5E7EB; border-radius: 8px; text-decoration: none; color: #374151; font-size: 14px; transition: all 0.2s; justify-content: flex-end;" onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';" onmouseout="this.style.boxShadow='none';">
+        <div style="text-align: right;">
+            <div style="font-size: 11px; color: #9CA3AF;">Следующий</div>
+            <div style="font-weight: 600;">{{ bug.next_bug.key }} — {{ bug.next_bug.title[:50] }}...</div>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </a>
+    {% else %}
+    <div style="flex: 1; padding: 12px 16px; background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 8px; color: #9CA3AF; font-size: 14px; text-align: right;">
+        Нет следующего
+    </div>
+    {% endif %}
+</div>
+
+<!-- Export button -->
+<div style="margin-bottom: 16px;">
+    <a href="{{ url_for('export_bug', bug_id=bug.id) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(102,126,234,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Экспорт в PDF (откроется новая вкладка)
+    </a>
+</div>
+
+<!-- Description Section -->
+{% if bug.description_html %}
+<div style="background: white; border-radius: 8px; padding: 24px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+    <div style="font-size: 12px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 16px;">Описание бага</div>
+    <div style="color: #1F2937; font-size: 14px; line-height: 1.7;">
+        {{ bug.description_html|safe }}
+    </div>
+</div>
+{% endif %}
+
+<!-- Links Section -->
+<div style="background: white; border-radius: 8px; padding: 24px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+    <div style="font-size: 12px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 12px;">Ссылки</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        {% if bug.url %}
+        <a href="{{ bug.url }}" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 6px; color: #1E40AF; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s;" onmouseover="this.style.background='#DBEAFE';" onmouseout="this.style.background='#EFF6FF';">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            Сайт проекта
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+        {% endif %}
+        <a href="https://github.com/ms1gnatov/qa-portfolio/blob/main/bug-reports/{{ bug.key }}.md" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px; color: #166534; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s;" onmouseover="this.style.background='#DCFCE7';" onmouseout="this.style.background='#F0FDF4';">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Markdown-файл
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+    </div>
+</div>
+
+<!-- Screenshots Section -->
+{% if bug.screenshots %}
+<div style="background: white; border-radius: 8px; padding: 24px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+    <div style="font-size: 12px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 12px;">Вложения ({{ bug.screenshots|length }} шт.)</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;">
+        {% for screenshot in bug.screenshots %}
+        {% set ext = screenshot.rsplit('.', 1)|last|lower %}
+        {% if ext in ['png', 'jpg', 'jpeg', 'gif', 'webp'] %}
+        <a href="{{ url_for('serve_screenshots', filename=screenshot) }}" target="_blank" class="screenshot-card" style="display: block; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.2s; text-decoration: none;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+            <img src="{{ url_for('serve_screenshots', filename=screenshot) }}" alt="{{ screenshot }}" style="width: 100%; height: 160px; object-fit: cover; display: block;">
+            <div style="padding: 8px 12px; font-size: 11px; color: #6B7280; background: #F9FAFB; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ screenshot }}</div>
+        </a>
+        {% elif ext == 'mp4' %}
+        <a href="{{ url_for('serve_screenshots', filename=screenshot) }}" target="_blank" class="screenshot-card" style="display: block; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.2s; text-decoration: none; background: #F9FAFB;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+            <div style="width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            </div>
+            <div style="padding: 8px 12px; font-size: 11px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                Видео — {{ screenshot }}
+            </div>
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Lightbox -->
+<div id="lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center;" onclick="if(event.target===this)this.style.display='none'">
+    <span style="position: absolute; top: 20px; right: 40px; font-size: 40px; color: white; cursor: pointer; user-select: none;" onclick="this.parentElement.style.display='none'">&times;</span>
+    <img id="lightbox-img" src="" style="max-width: 90%; max-height: 90%; border-radius: 4px;">
+</div>
+
+<script>
+// Add click handlers for screenshot cards to open lightbox
+document.querySelectorAll('.screenshot-card img').forEach(function(img) {
+    img.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var lightbox = document.getElementById('lightbox');
+        var lightboxImg = document.getElementById('lightbox-img');
+        lightboxImg.src = this.src;
+        lightbox.style.display = 'flex';
+    });
+});
+</script>
+
+{% endblock %}

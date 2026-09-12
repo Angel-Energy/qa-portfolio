@@ -1,0 +1,411 @@
+{% extends "base.html" %}
+{% block title %}БагТрекер — Все баг-репорты{% endblock %}
+
+{% block content %}
+<div class="jira-layout">
+    <!-- Sidebar -->
+    <aside class="jira-sidebar">
+        <div class="sidebar-header">
+            <div class="project-selector">
+                <div class="project-icon">QA</div>
+                <span>QA Portfolio</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Планирование</div>
+                <a href="{{ url_for('index') }}" class="nav-item active">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Все баг-репорты</span>
+                    <span class="nav-badge">{{ stats.total }}</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Доска</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Разработка</div>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <span>Бэклог</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span>План релиза</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Код</div>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    <span>Коммиты</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"></line><circle cx="18" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M18 9a9 9 0 0 1-9 9"></path></svg>
+                    <span>Ветки</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Операции</div>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                    <span>Дашборды</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    <span>Инциденты</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="jira-main">
+        <!-- Header -->
+        <header class="jira-header">
+            <div class="search-box">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="searchInput" placeholder="Поиск по задачам...">
+            </div>
+            
+            <div class="header-actions">
+                <button class="create-btn" onclick="window.location.href='{{ url_for('new_bug') }}'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Создать баг-репорт
+                </button>
+                <div class="user-avatar">QA</div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="jira-content">
+            <div class="content-main">
+                <!-- Filters -->
+                <div class="filters-bar">
+                    <select class="filter-select" id="statusFilter">
+                        <option value="all">Статус: Все</option>
+                        <option value="New">Открыт</option>
+                        <option value="In Progress">В работе</option>
+                        <option value="Resolved">Исправлен</option>
+                        <option value="Closed">Закрыт</option>
+                    </select>
+                    
+                    <select class="filter-select" id="priorityFilter">
+                        <option value="all">Приоритет: Все</option>
+                        <option value="Highest">Высокий</option>
+                        <option value="High">Средний</option>
+                        <option value="Medium">Низкий</option>
+                        <option value="Low">Низкий</option>
+                    </select>
+                    
+                    <select class="filter-select" id="assigneeFilter">
+                        <option value="all">Исполнитель: Все</option>
+                        <option value="QA Engineer">QA Engineer</option>
+                    </select>
+                    
+                    <button class="create-btn" style="background: #F4F5F7; color: #172B4D; border: 1px solid #DFE1E6;" onclick="clearFilters()">
+                        Сбросить фильтры
+                    </button>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-title">Всего задач</div>
+                        <div class="stat-card-value">{{ stats.total }}</div>
+                        <div class="stat-card-change">+{{ stats.open }} открытых</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-title">Открытые</div>
+                        <div class="stat-card-value">{{ stats.open }}</div>
+                        <div class="stat-card-change">{{ "%.1f"|format(stats.open / stats.total * 100 if stats.total > 0 else 0) }}% от общего</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-title">В работе</div>
+                        <div class="stat-card-value">{{ stats.in_progress }}</div>
+                        <div class="stat-card-change">В процессе</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-title">Исправленные</div>
+                        <div class="stat-card-value">{{ stats.resolved }}</div>
+                        <div class="stat-card-change">{{ "%.1f"|format(stats.resolved / stats.total * 100 if stats.total > 0 else 0) }}% от общего</div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+                    <div class="chart-container">
+                        <div class="chart-title">Баги по статусам</div>
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-title">Баги по приоритетам</div>
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Bug Table -->
+                <div class="bug-table-container">
+                    <table class="bug-table" id="bugTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px;">Ключ</th>
+                                <th>Заголовок</th>
+                                <th style="width: 120px;">Статус</th>
+                                <th style="width: 100px;">Приоритет</th>
+                                <th style="width: 120px;">Исполнитель</th>
+                                <th style="width: 100px;">Обновлено</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bugTableBody">
+                            {% for bug in bugs %}
+                            <tr data-status="{{ bug.status }}" data-priority="{{ bug.priority }}" data-severity="{{ bug.severity }}">
+                                <td class="key-cell">
+                                    <a href="{{ url_for('bug_detail', bug_id=bug.id) }}">{{ bug.key }}</a>
+                                </td>
+                                <td class="title-cell">
+                                    <a href="{{ url_for('bug_detail', bug_id=bug.id) }}" style="color: #0052CC; text-decoration: none;">{{ bug.title }}</a>
+                                </td>
+                                <td>
+                                    <span class="status-badge {{ bug.status|lower }}">
+                                        <span class="status-dot {{ bug.status|lower }}"></span>
+                                        {{ bug.status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="priority-badge {% if bug.priority in ['Highest', 'High'] %}high{% elif bug.priority == 'Medium' %}medium{% else %}low{% endif %}">
+                                        {% if bug.priority in ['Highest', 'High'] %}
+                                        <svg class="priority-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+                                        {{ bug.priority }}
+                                        {% elif bug.priority == 'Medium' %}
+                                        <svg class="priority-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                        {{ bug.priority }}
+                                        {% else %}
+                                        <svg class="priority-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                        {{ bug.priority }}
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="assignee-cell">
+                                        <div class="assignee-avatar">QA</div>
+                                        <span>QA Engineer</span>
+                                    </div>
+                                </td>
+                                <td style="color: #5E6C84; font-size: 13px;">{{ bug.date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Right Panel (Bug Detail) -->
+            <div class="content-sidebar">
+                <div class="detail-panel" id="detailPanel">
+                    <div class="detail-header">
+                        <div class="detail-key">Выберите баг для просмотра</div>
+                        <div class="detail-title">Нажмите на баг в таблице, чтобы увидеть детали</div>
+                    </div>
+                    <div class="detail-content">
+                        <div class="detail-section">
+                            <div class="detail-section-title">Статистика проекта</div>
+                            <div class="detail-section-content">
+                                <div class="meta-row">
+                                    <span class="meta-label">Всего багов:</span>
+                                    <span class="meta-value">{{ stats.total }}</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label">Открыто:</span>
+                                    <span class="meta-value" style="color: #0052CC;">{{ stats.open }}</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label">В работе:</span>
+                                    <span class="meta-value" style="color: #FF991F;">{{ stats.in_progress }}</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label">Исправлено:</span>
+                                    <span class="meta-value" style="color: #36B37E;">{{ stats.resolved }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // Charts
+    const statusData = {
+        labels: ['Открыт', 'В работе', 'Исправлен', 'Закрыт'],
+        datasets: [{
+            data: [{{ stats.open }}, {{ stats.in_progress }}, {{ stats.resolved }}, {{ stats.closed|default(0) }}],
+            backgroundColor: ['#0052CC', '#FF991F', '#36B37E', '#FFAB00'],
+            borderWidth: 0
+        }]
+    };
+
+    const priorityData = {
+        labels: ['Критический', 'Высокий', 'Средний', 'Низкий'],
+        datasets: [{
+            data: [
+                {{ bugs|selectattr('severity', 'equalto', 'Blocker')|list|length }},
+                {{ bugs|selectattr('severity', 'equalto', 'Critical')|list|length }},
+                {{ bugs|selectattr('severity', 'equalto', 'Major')|list|length }},
+                {{ bugs|selectattr('severity', 'equalto', 'Minor')|list|length }}
+            ],
+            backgroundColor: ['#FF5630', '#FF991F', '#0052CC', '#6554C0'],
+            borderWidth: 0
+        }]
+    };
+
+    new Chart(document.getElementById('statusChart'), {
+        type: 'doughnut',
+        data: statusData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { padding: 15, usePointStyle: true }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('priorityChart'), {
+        type: 'bar',
+        data: priorityData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#DFE1E6' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // Filter functionality
+    function filterTable() {
+        const statusFilter = document.getElementById('statusFilter').value;
+        const priorityFilter = document.getElementById('priorityFilter').value;
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#bugTableBody tr');
+        
+        rows.forEach(row => {
+            const status = row.dataset.status;
+            const priority = row.dataset.priority;
+            const title = row.querySelector('.title-cell').textContent.toLowerCase();
+            
+            const matchesStatus = statusFilter === 'all' || status === statusFilter;
+            const matchesPriority = priorityFilter === 'all' || priority === priorityFilter;
+            const matchesSearch = !searchInput || title.includes(searchInput);
+            
+            row.style.display = (matchesStatus && matchesPriority && matchesSearch) ? '' : 'none';
+        });
+    }
+
+    document.getElementById('statusFilter').addEventListener('change', filterTable);
+    document.getElementById('priorityFilter').addEventListener('change', filterTable);
+    document.getElementById('searchInput').addEventListener('input', filterTable);
+
+    function clearFilters() {
+        document.getElementById('statusFilter').value = 'all';
+        document.getElementById('priorityFilter').value = 'all';
+        document.getElementById('searchInput').value = '';
+        filterTable();
+    }
+
+    // Row click to show detail
+    document.querySelectorAll('#bugTableBody tr').forEach(row => {
+        row.addEventListener('click', function() {
+            document.querySelectorAll('#bugTableBody tr').forEach(r => r.classList.remove('selected'));
+            this.classList.add('selected');
+            
+            const key = this.querySelector('.key-cell a').textContent;
+            const title = this.querySelector('.title-cell a').textContent;
+            const status = this.querySelector('.status-badge').textContent.trim();
+            const priority = this.querySelector('.priority-badge').textContent.trim();
+            
+            document.querySelector('.detail-key').textContent = key;
+            document.querySelector('.detail-title').textContent = title;
+            document.querySelector('.detail-panel').innerHTML = `
+                <div class="detail-header">
+                    <div class="detail-key">${key}</div>
+                    <div class="detail-title">${title}</div>
+                    <div class="detail-badges">
+                        <span class="status-badge ${this.dataset.status.toLowerCase()}">
+                            <span class="status-dot ${this.dataset.status.toLowerCase()}"></span>
+                            ${status}
+                        </span>
+                        <span class="priority-badge ${this.dataset.priority.toLowerCase()}">
+                            ${priority}
+                        </span>
+                    </div>
+                </div>
+                <div class="detail-meta">
+                    <div class="meta-row">
+                        <span class="meta-label">Статус</span>
+                        <span class="meta-value">${status}</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-label">Приоритет</span>
+                        <span class="meta-value">${priority}</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-label">Серьёзность</span>
+                        <span class="meta-value">${this.dataset.severity}</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-label">Дата</span>
+                        <span class="meta-value">${this.querySelector('td:last-child').textContent}</span>
+                    </div>
+                </div>
+                <div class="detail-tabs">
+                    <div class="detail-tab active">Описание</div>
+                    <div class="detail-tab">Комментарии</div>
+                    <div class="detail-tab">Вложения</div>
+                </div>
+                <div class="detail-content">
+                    <div class="detail-section">
+                        <div class="detail-section-title">Описание</div>
+                        <div class="detail-section-content">
+                            <p>${title}</p>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-section-title">История изменений</div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">QA</div>
+                            <div class="activity-content">
+                                <div class="activity-text"><strong>QA Engineer</strong> создал задачу</div>
+                                <div class="activity-time">${this.querySelector('td:last-child').textContent}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 16px; border-top: 1px solid #DFE1E6;">
+                    <a href="{{ url_for('bug_detail', bug_id=0) }}" class="create-btn" style="width: 100%; justify-content: center; text-decoration: none;">
+                        Открыть полностью →
+                    </a>
+                </div>
+            `;
+        });
+    });
+</script>
+{% endblock %}
