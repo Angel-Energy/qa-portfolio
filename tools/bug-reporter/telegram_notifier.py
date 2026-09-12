@@ -50,6 +50,16 @@ SEVERITY_ICONS = {
     "Trivial": "⚪",
 }
 
+# Лимит Telegram на текст сообщения — 4096 символов; каждое поле
+# формы обрезается заранее, чтобы карточка всегда помещалась.
+FIELD_MAX_LEN = 800
+
+
+def _truncate(text: str, limit: int = FIELD_MAX_LEN) -> str:
+    if len(text) <= limit:
+        return text
+    return text[: limit - 1] + "…"
+
 
 def find_report_url(key: str, reports_dir: str | None = None) -> str:
     """Найти markdown-файл бага и вернуть ссылку на него на GitHub.
@@ -176,6 +186,22 @@ def format_bug_message(bug: dict) -> str:
     lines += header
 
     lines += ["", f"📝 *Суть дефекта:* {esc(bug.get('title', '—'))}"]
+
+    # Подробности из формы: классическая триада баг-репорта плюс влияние
+    # на пользователя. Секция выводится только если поле заполнено,
+    # длинные значения обрезаются под лимит Telegram.
+    sections: list[str] = []
+    for field, label in (
+        ("steps", "Шаги воспроизведения"),
+        ("expected_result", "Ожидаемый результат"),
+        ("actual_result", "Фактический результат"),
+        ("user_impact", "Влияние на пользователя"),
+    ):
+        value = str(bug.get(field) or "").strip()
+        if value:
+            sections.append(f"{esc(label)}: {esc(_truncate(value))}")
+    if sections:
+        lines += ["", *sections]
 
     tail: list[str] = []
     # Ссылка на сам баг-репорт: приоритет у явного bug['url'] (например,
