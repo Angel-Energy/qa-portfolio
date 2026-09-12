@@ -5,7 +5,11 @@ import re
 from pathlib import Path
 
 DB_PATH = os.path.join(os.path.dirname(__file__), 'bug_reports.db')
-BUGS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'bug-reports')
+# import_bugs.py лежит в tools/bug-reporter/, bug-reports/ — в корне репозитория
+BUGS_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    'bug-reports',
+)
 
 
 def parse_bug_file(filepath):

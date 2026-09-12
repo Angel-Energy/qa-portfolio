@@ -11,6 +11,9 @@ app.secret_key = "bug-reporter-secret-key-2026"
 
 DB_PATH = os.path.join(os.path.dirname(__file__), 'bug_reports.db')
 
+# app.py лежит в tools/bug-reporter/, корень репозитория — на два уровня выше
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -100,7 +103,7 @@ def index():
 
     # Загружаем список скриншотов из папки
     import glob
-    screenshot_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'screenshots')
+    screenshot_dir = os.path.join(REPO_ROOT, 'screenshots')
     all_screenshots = {}
     if os.path.isdir(screenshot_dir):
         for f in os.listdir(screenshot_dir):
@@ -159,7 +162,7 @@ def bug_detail(bug_id):
     
     # Загружаем скриншоты для этого бага
     import glob
-    screenshot_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'screenshots')
+    screenshot_dir = os.path.join(REPO_ROOT, 'screenshots')
     bug['screenshots'] = []
     if os.path.isdir(screenshot_dir):
         key_lower = bug['key'].lower()  # 'bug-001', 'bug-002', etc.
@@ -171,7 +174,7 @@ def bug_detail(bug_id):
     
     # Загружаем описание из markdown-файла
     import re
-    bug_reports_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'bug-reports')
+    bug_reports_dir = os.path.join(REPO_ROOT, 'bug-reports')
     bug['description_html'] = ''
     if os.path.isdir(bug_reports_dir):
         # Ищем файл по префиксу ключа бага (BUG-001, BUG-002, и т.д.)
@@ -295,7 +298,7 @@ def export_bug(bug_id):
     
     # Загружаем описание из markdown
     import re
-    bug_reports_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'bug-reports')
+    bug_reports_dir = os.path.join(REPO_ROOT, 'bug-reports')
     description_html = ''
     if os.path.isdir(bug_reports_dir):
         key_prefix = bug['key'] + '-'
@@ -339,7 +342,7 @@ def export_bug(bug_id):
             description_html = html
     
     # Загружаем скриншоты
-    screenshot_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'screenshots')
+    screenshot_dir = os.path.join(REPO_ROOT, 'screenshots')
     screenshots = []
     if os.path.isdir(screenshot_dir):
         key_lower = bug['key'].lower()
@@ -485,12 +488,10 @@ def delete_bug(bug_id):
 
 # ─── Static files ────────────────────────────────────────
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
 @app.route('/screenshots/<path:filename>')
 def serve_screenshots(filename):
     """Обслуживание скриншотов из папки screenshots/."""
-    screenshot_dir = os.path.join(PROJECT_ROOT, '..', 'screenshots')
+    screenshot_dir = os.path.join(REPO_ROOT, 'screenshots')
     return send_from_directory(screenshot_dir, filename)
 
 
