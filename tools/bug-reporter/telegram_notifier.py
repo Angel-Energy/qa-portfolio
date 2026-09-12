@@ -37,6 +37,10 @@ from datetime import datetime, timezone
 API_HOST = "api.telegram.org"
 DEFAULT_TIMEOUT = 20
 
+# Репозиторий с баг-репортами: из него строится ссылка в уведомлении,
+# если у бага не заполнено собственное поле url.
+REPO_URL = os.environ.get("TELEGRAM_REPO_URL", "https://github.com/Angel-Energy/qa-portfolio")
+
 # Значки критичности: от Blocker к Trivial
 SEVERITY_ICONS = {
     "Blocker": "⛔",
@@ -45,6 +49,29 @@ SEVERITY_ICONS = {
     "Minor": "🟡",
     "Trivial": "⚪",
 }
+
+
+def find_report_url(key: str, reports_dir: str | None = None) -> str:
+    """Найти markdown-файл бага и вернуть ссылку на него на GitHub.
+
+    Файлы в bug-reports/ называются с префиксом ключа:
+    BUG-008-getcourse-blog-sidebar-broken-links.md для ключа BUG-008.
+    Если файл не найден (баг ещё не оформлен как репорт), возвращается
+    пустая строка — тогда ссылка в сообщении просто не выводится.
+    reports_dir — для тестов; по умолчанию ../../bug-reports от модуля.
+    """
+    if not key:
+        return ""
+    if reports_dir is None:
+        base = os.path.dirname(os.path.abspath(__file__))
+        reports_dir = os.path.normpath(os.path.join(base, "..", "..", "bug-reports"))
+    if not os.path.isdir(reports_dir):
+        return ""
+    prefix = key + "-"
+    for name in sorted(os.listdir(reports_dir)):
+        if name.startswith(prefix) and name.endswith(".md"):
+            return f"{REPO_URL}/blob/main/bug-reports/{name}"
+    return ""
 
 
 class TelegramConfigError(RuntimeError):
@@ -151,14 +178,20 @@ def format_bug_message(bug: dict) -> str:
     lines += ["", f"📝 *Суть дефекта:* {esc(bug.get('title', '—'))}"]
 
     tail: list[str] = []
-    if bug.get("url"):
+    # Ссылка на сам баг-репорт: приоритет у явного bug['url'] (например,
+    # ссылка на таск-трекер). Если его нет, ищем markdown-файл бага в
+    # репозитории bug-reports/ и строим ссылку на GitHub.
+    report_url = bug.get("url") or find_report_url(bug.get("key", ""))
+    if report_url:
         # Внутри (...) инлайн-ссылки MarkdownV2 экранируются только
         # ')' и обратный слеш — документированное правило Telegram.
         # chr(92) = обратный слеш; так в исходнике не нужны двойные
         # бэкслеши, которые легко потерять при правках.
         bs = chr(92)
-        safe_url = bug["url"].replace(bs, bs + bs).replace(")", bs + ")")
-        tail.append(f"🔗 [открыть карточку]({safe_url})")
+        safe_url = report_url.replace(bs, bs + bs).replace(")", bs + ")")
+        # дефис в тексте ссылки — зарезервированный символ MarkdownV2
+        label = "открыть баг" + bs + "-репорт"
+        tail.append(f"🔗 [{label}]({safe_url})")
     if bug.get("environment"):
         tail.append(f"⚙️ *Окружение:* {esc(bug['environment'])}")
     tail.append(f"👤 *Тестировщик:* {esc(bug.get('reporter', 'Мария Игнатова'))}")

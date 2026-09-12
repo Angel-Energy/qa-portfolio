@@ -83,7 +83,8 @@ def test_url_becomes_inline_link_with_escaped_parens():
     msg = tn.format_bug_message({"key": "BUG-012", "title": "x", "url": "https://ya.ru/search?q=(1)"})
     # внутри (...) инлайн-ссылки экранируются только ')' и обратный слеш,
     # '(' остаётся как есть — по документации Telegram по MarkdownV2
-    assert "[открыть карточку](https://ya.ru/search?q=(1\))" in msg
+    bs = chr(92)
+    assert "[открыть баг" + bs + "-репорт](https://ya.ru/search?q=(1" + bs + "))" in msg
 
 
 def test_timestamp_dots_are_escaped():
@@ -179,6 +180,52 @@ def test_network_error_is_swallowed_and_reported():
             ok, detail = tn.send_bug_notification(BUG)
     assert ok is False
     assert "сеть недоступна" in detail
+
+
+# ─── Поиск ссылки на баг-репорт ───────────────────────────────────
+
+
+def test_find_report_url_builds_github_link(tmp_path):
+    (tmp_path / "BUG-008-getcourse-blog-sidebar-broken-links.md").write_text("x", encoding="utf-8")
+    url = tn.find_report_url("BUG-008", reports_dir=str(tmp_path))
+    assert url == (
+        "https://github.com/Angel-Energy/qa-portfolio/blob/main/bug-reports/"
+        "BUG-008-getcourse-blog-sidebar-broken-links.md"
+    )
+
+
+def test_find_report_url_missing_file_returns_empty(tmp_path):
+    assert tn.find_report_url("BUG-999", reports_dir=str(tmp_path)) == ""
+
+
+def test_find_report_url_empty_key_returns_empty(tmp_path):
+    assert tn.find_report_url("", reports_dir=str(tmp_path)) == ""
+
+
+def test_find_report_url_picks_exact_prefix_not_substring(tmp_path):
+    # BUG-001 не должен матчить файл BUG-0010-...md
+    (tmp_path / "BUG-0010-other.md").write_text("x", encoding="utf-8")
+    assert tn.find_report_url("BUG-001", reports_dir=str(tmp_path)) == ""
+
+
+def test_message_without_url_and_without_report_has_no_link():
+    msg = tn.format_bug_message({"key": "BUG-777", "title": "x"})
+    assert "открыть баг-репорт" not in msg
+
+
+def test_message_with_real_report_gets_github_link(tmp_path):
+    (tmp_path / "BUG-008-getcourse.md").write_text("x", encoding="utf-8")
+    with patch.object(tn, "find_report_url", return_value="https://example.com/BUG-008.md"):
+        msg = tn.format_bug_message({"key": "BUG-008", "title": "x"})
+    bs = chr(92)
+    assert "[открыть баг" + bs + "-репорт](https://example.com/BUG-008.md)" in msg
+
+
+def test_explicit_url_wins_over_report_file(tmp_path):
+    (tmp_path / "BUG-008-getcourse.md").write_text("x", encoding="utf-8")
+    msg = tn.format_bug_message({"key": "BUG-008", "title": "x", "url": "https://jira.example/BUG-8"})
+    bs = chr(92)
+    assert "[открыть баг" + bs + "-репорт](https://jira.example/BUG-8)" in msg
 
 
 # ─── Чтение из БД трекера ─────────────────────────────────────────
