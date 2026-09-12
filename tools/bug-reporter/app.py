@@ -142,8 +142,8 @@ def index():
 def bug_detail(bug_id):
     conn = get_db()
     bug = conn.execute("SELECT * FROM bugs WHERE id = ?", (bug_id,)).fetchone()
-    conn.close()
     if bug is None:
+        conn.close()
         flash('Баг не найден', 'error')
         return redirect(url_for('index'))
     
