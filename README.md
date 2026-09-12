@@ -1,68 +1,39 @@
-# QA Portfolio
+# QA Portfolio | 
 
-> Портфолио начинающего тестировщика. Здесь собраны баг-репорты,
-> чек-листы и примеры ручного тестирования веб- и мобильных приложений.
+> Портфолио начинающего инженера по тестированию (QA Engineer / QA Intern).
+> В репозитории собраны примеры баг-репортов, чек-листов, API/UI проверок, а также кейсы автоматизации и аудита с использованием ИИ.
 
 ---
 
-## Обо мне
+## О себе
 
-Специалист службы поддержки пользователей с опытом работы
-в сервисах экосистемы Яндекса и практическим опытом
-поиска и описания багов в продуктах.
+Нахожусь в процессе прохождения курса профессиональной переподготовки **«Инженер по тестированию ПО» (507 часов теории и прикладной практики)**.
 
-За 4+ года работы в **Яндекс Лавке**, **Яндекс Плюсе**,
-**Яндекс Доставке**, **Яндекс Драйве** и **Яндекс Еде**
-выявляла дефекты и оформляла баг-репорты
-с шагами воспроизведения, ожидаемым и фактическим результатом.
+Обладаю 4+ годами опыта работы в продуктовых экосистемах (**Яндекс**, **GetCourse**, **Т-Банк**). Разбираюсь в процессах поиска и локализации дефектов на уровне веб-интерфейсов, мобильных приложений (Android) и сетевых запросов.
 
-Имею опыт контроля качества по чек-листам,
-работы с админ-панелями и взаимодействия
-с техническими и продуктовыми командами.
+В работе сочетаю классический тест-дизайн с современными инструментами: использую **Chrome DevTools**, проверяю **REST API / HTTP-заголовки**, работаю с **SQL** и применяю **генеративный ИИ** для написания скриптов автоматизации (PowerShell, Python + Playwright).
 
-Знакома с теорией тестирования:
-функциональное, регрессионное и smoke-тестирование,
-жизненный цикл дефекта.
+> 🤖 **Подход к работе (AI-Assisted QA).** Активно использую генеративный ИИ как ассистента для ускорения рутины — генерации скриптов проверки (PowerShell, Python + Playwright), подготовки тестовых данных и краевых сценариев. При этом логику тестирования, анализ результатов и валидацию кода выполняю самостоятельно: ИИ пишет синтаксис, а QA-мышление и постановку задачи обеспечиваю я.
 
 ---
 
 ## Навыки и инструменты
 
-**Тестирование:**
+**Тестирование и Методологии:**
 
-![Manual Testing](https://img.shields.io/badge/Manual%20Testing-4A90D9?style=for-the-badge)
-![Functional Testing](https://img.shields.io/badge/Functional%20Testing-5BA85A?style=for-the-badge)
-![UI Testing](https://img.shields.io/badge/UI%20Testing-E67E22?style=for-the-badge)
-![Mobile Testing](https://img.shields.io/badge/Mobile%20Testing-9B59B6?style=for-the-badge)
-![Web Testing](https://img.shields.io/badge/Web%20Testing-1ABC9C?style=for-the-badge)
-![Regression Testing](https://img.shields.io/badge/Regression%20Testing-E74C3C?style=for-the-badge)
-![Smoke Testing](https://img.shields.io/badge/Smoke%20Testing-F39C12?style=for-the-badge)
-![Negative Testing](https://img.shields.io/badge/Negative%20Testing-C0392B?style=for-the-badge)
-![E2E Testing](https://img.shields.io/badge/E2E%20Testing-2980B9?style=for-the-badge)
+![Manual Testing](https://img.shields.io/badge/Manual%20Testing-4A90D9?style=for-the-badge) ![Functional Testing](https://img.shields.io/badge/Functional%20Testing-5BA85A?style=for-the-badge) ![Mobile Testing (Android)](https://img.shields.io/badge/Mobile%20Testing%20(Android)-3DDC84?style=for-the-badge&logo=android&logoColor=white) ![Web Testing](https://img.shields.io/badge/Web%20Testing-1ABC9C?style=for-the-badge) ![API Testing](https://img.shields.io/badge/API%20Testing-E67E22?style=for-the-badge) ![Regression Testing](https://img.shields.io/badge/Regression%20Testing-E74C3C?style=for-the-badge) ![Smoke Testing](https://img.shields.io/badge/Smoke%20Testing-F39C12?style=for-the-badge)
 
-**Документация:**
+**Автоматизация и ИИ (AI-Assisted QA):**
 
-![Bug Reports](https://img.shields.io/badge/Bug%20Reports-E74C3C?style=for-the-badge)
-![Checklists](https://img.shields.io/badge/Checklists-27AE60?style=for-the-badge)
-![Test Cases](https://img.shields.io/badge/Test%20Cases-8E44AD?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white) ![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white) ![ChatGPT / AI](https://img.shields.io/badge/AI--Assisted%20Testing-74AA9C?style=for-the-badge&logo=openai&logoColor=white)
 
-**Инструменты:**
+**Сети, Инструменты и СУБД:**
 
-![DevTools](https://img.shields.io/badge/DevTools-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
-![Yandex Tracker](https://img.shields.io/badge/Yandex%20Tracker-FFCC00?style=for-the-badge&logoColor=black)
+![DevTools](https://img.shields.io/badge/DevTools-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white) ![SQL / PostgreSQL](https://img.shields.io/badge/SQL%20%2F%20PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) ![Yandex Tracker](https://img.shields.io/badge/Yandex%20Tracker-FFCC00?style=for-the-badge&logoColor=black)
 
-**Платформы:**
+**Платформы и ОС:**
 
-![Android](https://img.shields.io/badge/Android%2010%20%2F%2015-3DDC84?style=for-the-badge&logo=android&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows%2011-0078D4?style=for-the-badge&logo=windows&logoColor=white)
-![Web](https://img.shields.io/badge/Web-FF6B6B?style=for-the-badge&logo=googlechrome&logoColor=white)
-
-**Браузеры:**
-
-![Yandex Browser](https://img.shields.io/badge/Yandex%20Browser-FFCC00?style=for-the-badge&logoColor=black)
-![Chrome](https://img.shields.io/badge/Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)
-![Opera](https://img.shields.io/badge/Opera-FF1B2D?style=for-the-badge&logo=opera&logoColor=white)
+![Android 10 / 15](https://img.shields.io/badge/Android%2010%20%2F%2015-3DDC84?style=for-the-badge&logo=android&logoColor=white) ![Windows 11](https://img.shields.io/badge/Windows%2011-0078D4?style=for-the-badge&logo=windows&logoColor=white)
 
 ---
 
@@ -70,72 +41,65 @@
 
 | Устройство | ОС | Назначение |
 |------------|----|------------|
-| POCO F5 Pro | Android 15 | Тестирование мобильных приложений и мобильного веба |
-| HUAWEI YAL-L21 | Android 10 | Тестирование совместимости на разных версиях Android |
-| ПК | Windows 11 | Тестирование десктопных веб-приложений |
-
-**Интернет:** 300 Мбит/с
+| **POCO F5 Pro** | Android 15 | Тестирование мобильных приложений и мобильного веба |
+| **HUAWEI YAL-L21** | Android 10 | Тестирование совместимости на ранних версиях Android |
+| **ПК** | Windows 11 | Тестирование десктопного веба, запуск скриптов, DevTools |
 
 ---
 
 ## Баг-репорты
 
-### ⭐ Подтверждены командами разработки
+### ⭐ Ключевые кейсы и дефекты, подтвержденные разработкой
 
-| ID | Продукт | Суть дефекта | Тип | Результат |
-|----|---------|--------------|-----|-----------|
-| [BUG-001](bug-reports/BUG-001.md) | Яндекс Лавка | Кнопка «В корзину» не реагирует на нажатие в составе набора | Functional | Дефект подтверждён, присвоен severity **Blocker** |
-| [BUG-004](bug-reports/BUG-004.md) | НКЭиВТ | Учебный год отображается как «2025» вместо «2025/2026» | UX / Display | Дефект подтверждён, исправление запланировано. Отмечен командой разработки как **образец оформления** |
+| ID | Продукт | Суть дефекта | Тип / Стек | Результат / Статус |
+|----|---------|--------------|------------|--------------------|
+| [BUG-001](bug-reports/BUG-001-yandex-lavka-cart-button.md) | **Яндекс Лавка** | Кнопка «В корзину» не реагирует на нажатие в составе набора «Завтрак и кофе» | Mobile / Functional | Подтверждён командой разработки, присвоен severity **Blocker** |
+| [BUG-004](bug-reports/BUG-004-journal-wrong-year.md) | **НКЭиВТ** | Учебный год отображается как «2025» вместо «2025/2026» | Web / UX | Подтверждён. Отмечен командой разработки как **эталонный образец оформления** |
+| [BUG-008](bug-reports/BUG-008-getcourse-blog-sidebar-broken-links.md) | **GetCourse** | Битые редиректы (HTTP 301) скрытых статей в сайдбаре блога на общий листинг | Web / API / AI Scripting | Автоматизированный аудит 666 ссылок через **PowerShell + Playwright** (AI-Assisted) |
 
-### Остальные баг-репорты
+### Дополнительные баг-репорты
 
-| ID | Продукт | Суть дефекта | Test Type | Severity | Среда |
-|----|---------|--------------|-----------|----------|-------|
-| [BUG-002](bug-reports/BUG-002.md) | sovcomjob.ru | Layout overlap: форма перекрывает nav-меню в mobile view | UI / Layout | Major | Android 10 |
-| [BUG-003](bug-reports/BUG-003.md) | Яндекс Крауд | Mismatch: формулировка вопроса не соответствует типу ответа | Content / UX | Minor | Web |
-| [BUG-005](bug-reports/BUG-005.md) | Яндекс Почта | Data inconsistency: счётчик треда показывает «3» при фактических 2 сообщениях | Functional | Major | Web |
-| [BUG-006](bug-reports/BUG-006.md) | Электронный город | API response mismatch: сервер возвращает `text/html` вместо `application/json` | Functional / Server-side | Critical | Web |
-| [BUG-007](bug-reports/BUG-007.md) | Т-Образование | HTTP 400 Bad Request при вызове endpoint восстановления пароля — server-side error `bff:invalid-email` | Functional / Server-side | Critical | Web |
+| ID | Продукт | Суть дефекта | Test Type | Severity | Окружение |
+|----|---------|--------------|-----------|----------|-----------|
+| [BUG-002](bug-reports/BUG-002-sovcomjob-menu-overlay.md) | sovcomjob.ru | Layout overlap: форма перекрывает навигационное меню | UI / Layout | Major | Android 10 |
+| [BUG-003](bug-reports/BUG-003-yandex-crowd-test-wording.md) | Яндекс Крауд | Mismatch: текст вопроса («верные») не соответствует radio button | Content / UX | Minor | Web |
+| [BUG-005](bug-reports/BUG-005-yandex-mail-thread-counter.md) | Яндекс Почта | Data inconsistency: счётчик треда показывает «3» при фактических 2 сообщениях | Functional / Cache | Major | Web |
+| [BUG-006](bug-reports/BUG-006-electrogorod-recovery-json-error.md) | Электронный город | API error: сервер возвращает HTML `<!DOCTYPE...` вместо JSON | Functional / Server-side | Critical | Web / DevTools |
+| [BUG-007](bug-reports/BUG-007-Bad-Request.md) | Т-Образование | HTTP 400 Bad Request при восстановлении пароля (`bff:invalid-email`) | Functional / API | Critical | Web / DevTools |
 
 ---
 
 ## Покрытие типов тестирования
 
 ```mermaid
-pie title Покрытие типов тестирования
-    "Functional" : 4
-    "UI" : 1
-    "UX / Content" : 2
-    "Mobile" : 2
-    "Web" : 5
-    "API" : 2
-    "Negative" : 1
-    "E2E" : 1
+pie title Распределение баг-репортов по типам
+    "Functional & API" : 4
+    "UI & Layout" : 1
+    "UX & Content" : 2
+    "Automated Audit (HTTP/E2E)" : 1
 ```
 
 | Test Type | Technique | Level | Баг-репорты |
 |-----------|-----------|-------|-------------|
-| Functional Testing | Black-box | UI + API | BUG-001, BUG-005, BUG-006, BUG-007 |
-| UI Testing | Layout / Visual | Frontend | BUG-002 |
-| UX / Content Testing | Exploratory | UI | BUG-003, BUG-004 |
-| Mobile Testing | Cross-platform | Device | BUG-001, BUG-002 |
-| Web Testing | Regression | Browser | BUG-003, BUG-004, BUG-005, BUG-006, BUG-007 |
-| API Testing | Negative | Server-side | BUG-006, BUG-007 |
-| Negative Testing | Boundary / Error flow | UI + API | BUG-007 |
-| End-to-End Testing | Scenario-based | UI + API | BUG-007 |
+| **Functional Testing** | Black-box, Error Flow | UI + API | BUG-001, BUG-005, BUG-006, BUG-007 |
+| **UI / Layout Testing** | Visual Inspection | Frontend | BUG-002 |
+| **UX / Content Testing** | Exploratory Testing | UI | BUG-003, BUG-004 |
+| **Mobile Testing** | Device Testing | Android 10 / 15 | BUG-001, BUG-002 |
+| **Web & API Testing** | DevTools Network Analysis | Server-side / Client | BUG-006, BUG-007, BUG-008 |
+| **AI-Assisted Automation** | Scripted HTTP & E2E Audit | PowerShell / Playwright | BUG-008 |
 
 ---
 
-## Чек-листы
+## Чек-листы и Тестовая документация
 
-| Название | Тип |
-|----------|-----|
-| [Smoke Checklist — мобильное приложение](checklists/smoke-checklist-mobile-app.md) | Smoke |
-| [Regression Checklist — корзина интернет-магазина](checklists/regression-checklist-cart.md) | Regression |
+| Название | Тип | Описание |
+|----------|-----|----------|
+| [Smoke Checklist — мобильное приложение](checklists/smoke-checklist-mobile-app.md) | Smoke | Чек-лист проверки критического пути мобильного приложения |
+| [Regression Checklist — корзина интернет-магазина](checklists/regression-checklist-cart.md) | Regression | Проверка логики добавления товаров, наборов и расчета скидок |
 
 ---
 
 ## Контакты
 
 [![Email](https://img.shields.io/badge/ms1gnatov1%40yandex.ru-FFCC00?style=for-the-badge&logo=mail.ru&logoColor=black)](mailto:ms1gnatov1@yandex.ru)
-[![Новосибирск](https://img.shields.io/badge/Новосибирск-4A90D9?style=for-the-badge&logo=googlemaps&logoColor=white)]()
+![Новосибирск](https://img.shields.io/badge/%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B8%D0%B1%D0%B8%D1%80%D1%81%D0%BA-4A90D9?style=for-the-badge&logo=googlemaps&logoColor=white)
