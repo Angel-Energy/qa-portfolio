@@ -459,7 +459,7 @@ def change_status_get(bug_id, status):
         return redirect(url_for('index'))
 
     conn = get_db()
-    bug = conn.execute("SELECT id FROM bugs WHERE id = ?", (bug_id,)).fetchone()
+    bug = conn.execute("SELECT id, key FROM bugs WHERE id = ?", (bug_id,)).fetchone()
     if not bug:
         conn.close()
         flash('Баг не найден', 'error')
