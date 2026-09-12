@@ -44,19 +44,61 @@ def init_db():
                 date TEXT DEFAULT (date('now')),
                 url TEXT DEFAULT '',
                 attachments TEXT DEFAULT '',
+                type TEXT DEFAULT '',
+                component TEXT DEFAULT '',
+                assignee TEXT DEFAULT '',
+                reporter TEXT DEFAULT '',
+                environment TEXT DEFAULT '',
+                preconditions TEXT DEFAULT '',
+                steps TEXT DEFAULT '',
+                expected_result TEXT DEFAULT '',
+                actual_result TEXT DEFAULT '',
+                user_impact TEXT DEFAULT '',
+                root_cause TEXT DEFAULT '',
+                recommendations TEXT DEFAULT '',
+                labels TEXT DEFAULT '',
+                comments TEXT DEFAULT '',
                 created_at TEXT DEFAULT (datetime('now', 'localtime')),
                 updated_at TEXT DEFAULT (datetime('now', 'localtime'))
             )
         """)
         conn.commit()
-    
+        # Список колонок вычислен ДО создания таблицы (для свежей базы
+        # он был пуст) — пересчитываем, иначе ALTER ниже упадёт с
+        # "duplicate column name".
+        columns = [row[1] for row in conn.execute("PRAGMA table_info(bugs)").fetchall()]
+
     if 'url' not in columns:
         conn.execute("ALTER TABLE bugs ADD COLUMN url TEXT DEFAULT ''")
         conn.commit()
-    
+
     if 'attachments' not in columns:
         conn.execute("ALTER TABLE bugs ADD COLUMN attachments TEXT DEFAULT ''")
         conn.commit()
+
+    # Поля формы new_bug/edit_bug: полный отчёт хранится в БД, а не
+    # только уходит в Telegram-уведомление. Существующие базы
+    # мигрируются по одному столбцу через ALTER TABLE.
+    form_columns = {
+        "type": "TEXT DEFAULT ''",
+        "component": "TEXT DEFAULT ''",
+        "assignee": "TEXT DEFAULT ''",
+        "reporter": "TEXT DEFAULT ''",
+        "environment": "TEXT DEFAULT ''",
+        "preconditions": "TEXT DEFAULT ''",
+        "steps": "TEXT DEFAULT ''",
+        "expected_result": "TEXT DEFAULT ''",
+        "actual_result": "TEXT DEFAULT ''",
+        "user_impact": "TEXT DEFAULT ''",
+        "root_cause": "TEXT DEFAULT ''",
+        "recommendations": "TEXT DEFAULT ''",
+        "labels": "TEXT DEFAULT ''",
+        "comments": "TEXT DEFAULT ''",
+    }
+    for column, ddl in form_columns.items():
+        if column not in columns:
+            conn.execute(f"ALTER TABLE bugs ADD COLUMN {column} {ddl}")
+    conn.commit()
     
     # Создаём таблицу комментариев если нет
     table_exists = conn.execute(
@@ -371,8 +413,11 @@ def new_bug():
         today = request.form.get("date", None) or sqlite3.connect(DB_PATH).execute("SELECT date('now')").fetchone()[0]
 
         conn.execute("""
-            INSERT INTO bugs (key, title, project, severity, priority, status, date, url, attachments)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO bugs (key, title, project, severity, priority, status, date, url, attachments,
+                              type, component, assignee, reporter, environment, preconditions,
+                              steps, expected_result, actual_result, user_impact, root_cause,
+                              recommendations, labels, comments)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             key,
             data.get("title", ""),
@@ -382,13 +427,60 @@ def new_bug():
             data.get("status", "New"),
             today,
             data.get("url", ""),
-            data.get("attachments", "")
+            data.get("attachments", ""),
+            data.get("type", ""),
+            data.get("component", ""),
+            data.get("assignee", ""),
+            data.get("reporter", ""),
+            data.get("environment", ""),
+            data.get("preconditions", ""),
+            data.get("steps", ""),
+            data.get("expected_result", ""),
+            data.get("actual_result", ""),
+            data.get("user_impact", ""),
+            data.get("root_cause", ""),
+            data.get("recommendations", ""),
+            data.get("labels", ""),
+            data.get("comments", "")
         ))
         conn.commit()
         bug_id = conn.execute("SELECT id FROM bugs WHERE key = ?", (key,)).fetchone()[0]
         conn.close()
 
+        # Виджет формы -> Python -> Telegram: карточка бага уходит в чат
+        # со всеми деталями из формы (шаги, ожидаемый/фактический
+        # результат, влияние) — этих колонок в БД нет, поэтому отчёт
+        # собирается из данных формы, а не из строки базы.
+        # Без настроенного Telegram баг всё равно создаётся:
+        # send_bug_notification возвращает (False, причина), не бросая
+        # исключений.
+        try:
+            from telegram_notifier import send_bug_notification
+        except ImportError:
+            send_bug_notification = None
+
         flash(f'Баг {key} создан!', 'success')
+        if send_bug_notification is not None:
+            ok, detail = send_bug_notification({
+                "key": key,
+                "title": data.get("title", ""),
+                "project": data.get("project", ""),
+                "severity": data.get("severity", "Major"),
+                "priority": data.get("priority", "Medium"),
+                "status": data.get("status", "New"),
+                "url": data.get("url", ""),
+                "environment": data.get("environment", ""),
+                "steps": data.get("steps", ""),
+                "expected_result": data.get("expected_result", ""),
+                "actual_result": data.get("actual_result", ""),
+                "user_impact": data.get("user_impact", ""),
+                "reporter": data.get("reporter", ""),
+            })
+            if ok:
+                flash('Уведомление в Telegram отправлено.', 'success')
+            else:
+                flash(f'Telegram: {detail}', 'info')
+
         return redirect(url_for('bug_detail', bug_id=bug_id))
 
     return render_template('new_bug.html')
@@ -407,7 +499,10 @@ def edit_bug(bug_id):
         data = request.form
         conn.execute("""
             UPDATE bugs SET
-                title=?, project=?, severity=?, priority=?, status=?, date=?, url=?, attachments=?, updated_at=datetime('now', 'localtime')
+                title=?, project=?, severity=?, priority=?, status=?, date=?, url=?, attachments=?,
+                type=?, component=?, assignee=?, reporter=?, environment=?, preconditions=?,
+                steps=?, expected_result=?, actual_result=?, user_impact=?, root_cause=?,
+                recommendations=?, labels=?, comments=?, updated_at=datetime('now', 'localtime')
             WHERE id=?
         """, (
             data.get("title", ""),
@@ -418,6 +513,20 @@ def edit_bug(bug_id):
             data.get("date", ""),
             data.get("url", ""),
             data.get("attachments", ""),
+            data.get("type", ""),
+            data.get("component", ""),
+            data.get("assignee", ""),
+            data.get("reporter", ""),
+            data.get("environment", ""),
+            data.get("preconditions", ""),
+            data.get("steps", ""),
+            data.get("expected_result", ""),
+            data.get("actual_result", ""),
+            data.get("user_impact", ""),
+            data.get("root_cause", ""),
+            data.get("recommendations", ""),
+            data.get("labels", ""),
+            data.get("comments", ""),
             bug_id
         ))
         conn.commit()
