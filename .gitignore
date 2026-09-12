@@ -49,5 +49,5 @@ desktop.ini
 # Local backups / duplicates
 bug-reports/BUG-008-template.html
 
-# Duplicates of top-level screenshots/ (bug-reporter serves files from the repo root)
-tools/bug-reporter/static/screenshots/
+# Duplicates of top-level screenshots/ (bug-reporter serves files from ../screenshots/)
+bug-reporter/static/screenshots/

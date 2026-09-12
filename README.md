@@ -146,7 +146,7 @@ py -m pytest tests/ -v --browser chromium
 
 Мини-трекер багов на **Flask + SQLite** с Jira-подобным интерфейсом —
 собственный инструмент для ведения портфолио-багов
-([tools/bug-reporter/](tools/bug-reporter/), подробнее — [tools/bug-reporter/README.md](tools/bug-reporter/README.md)).
+([bug-reporter/](bug-reporter/), подробнее — [bug-reporter/README.md](bug-reporter/README.md)).
 
 **Возможности:**
 
@@ -160,7 +160,7 @@ py -m pytest tests/ -v --browser chromium
 **Запуск:**
 
 ```powershell
-cd tools/bug-reporter
+cd bug-reporter
 py -m pip install -r requirements.txt
 py app.py
 # → http://127.0.0.1:5000
