@@ -1,0 +1,8 @@
+# Зависимости для автотестов (tests/)
+# Установка: py -m pip install -r requirements.txt
+# После установки браузеров: py -m playwright install chromium
+
+pytest>=8.0
+requests>=2.31
+playwright>=1.44
+pytest-playwright>=0.4.4
